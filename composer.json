@@ -12,8 +12,9 @@
     ],
     "type": "symfony-bundle",
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-0": { "Fervo\\DeferredEventBundle": "" }
     },
+    "target-dir": "Fervo/DeferredEventBundle",
     "require": {
         "php": ">=5.3.3",
         "symfony/framework-bundle": "~2.3",

@@ -29,7 +29,7 @@ Add the bundle to your composer file, as well as well as your AppKernel. You pro
 Configure the bundle as follows:
 
 ```
-fervo_dispatch:
+fervo_deferred_event:
     backend:
         type: sidekiq
         sidekiq_client_service: redeye_sidekiq
