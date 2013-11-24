@@ -24,7 +24,7 @@ Of course FervoDeferredEventBundle requires some kind of a message queue and a w
 
 ## Setup
 
-Add the bundle to your composer file, as well as well as your AppKernel. You probably also want to install [rdey/sidekiq-bundle](#) for easy access to a Sidekiq client.
+Add the bundle to your composer file, as well as well as your AppKernel. The bundle uses [musicglue/sidekiq-job-pusher](https://github.com/musicglue/sidekiq-job-pusher/), so set up a client service, and pass it into the configuration.
 
 Configure the bundle as follows:
 
@@ -32,7 +32,7 @@ Configure the bundle as follows:
 fervo_deferred_event:
     backend:
         type: sidekiq
-        sidekiq_client_service: redeye_sidekiq
+        sidekiq_client_service: sidekiq_client
 ```
 
 You'll also need to set up Sidekiq. Grab the [fervo/deferred-event-worker](https://github.com/fervo/deferred-event-worker) repository and follow the instructions there.
