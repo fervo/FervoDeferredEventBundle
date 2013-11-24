@@ -19,8 +19,13 @@ class SidekiqEventQueue implements EventQueueInterface
 
     public function deferEvent(Event $event, $delay = 0)
     {
-        $eventData = $this->eventSerializer->serialize($event, 'base64');
+        $args = [$this->eventSerializer->serialize($event, 'base64')];
 
-        $this->sidekiq->perform('DeferEvent', [$eventData]);
+        $at = null;
+        if ($delay > 0) {
+            $at = microtime(true) + $delay;
+        }
+
+        $this->sidekiq->perform('DeferEvent', $args, true, 'default', $at);
     }
 }
