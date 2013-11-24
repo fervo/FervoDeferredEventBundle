@@ -1,0 +1,16 @@
+{
+    "name": "fervo/deferred-event-bundle",
+    "description": "Defer your events to another process (via FastCGI)",
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": "~2.3",
+        "musicglue/sidekiq-job-pusher": "dev-master"
+    },
+    "recommend": {
+        "redeye/sidekiq-bundle": "dev-master"
+    },
+    "bin": ["Resources/bin/dispatch.php"]
+}

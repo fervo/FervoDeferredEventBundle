@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class FervoDispatchExtension extends Extension
+class FervoDeferredEventExtension extends Extension
 {
     /**
      * {@inheritDoc}
@@ -27,13 +27,13 @@ class FervoDispatchExtension extends Extension
         $loader->load('services.yml');
 
         if ($config['backend']['sidekiq_client_service']) {
-            $def = $container->getDefinition('fervo_dispatch.queue.sidekiq');
+            $def = $container->getDefinition('fervo_deferred_event.queue.sidekiq');
             $def->replaceArgument(0, new Reference($config['backend']['sidekiq_client_service']));
         }
 
         $container->setAlias(
-            'fervo_dispatch.queue',
-            sprintf('fervo_dispatch.queue.%s', $config['backend']['type'])
+            'fervo_deferred_event.queue',
+            sprintf('fervo_deferred_event.queue.%s', $config['backend']['type'])
         );
     }
 }
