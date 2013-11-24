@@ -1,0 +1,23 @@
+services:
+    fervo_deferred_event.queue.sidekiq:
+        class: Fervo\DeferredEventBundle\Event\Queue\SidekiqEventQueue
+        public: false
+        arguments:
+            - ~
+            - @fervo_deferred_event.serializer
+
+    fervo_deferred_event.queue.immediate:
+        class: Fervo\DeferredEventBundle\Event\Queue\ImmediateEventQueue
+        public: false
+        arguments:
+            - @event_dispatcher
+
+    fervo_deferred_event.listener:
+        class: Fervo\DeferredEventBundle\Listener\DeferEventListener
+        arguments:
+            - @fervo_deferred_event.queue
+        tags:
+            - { name: kernel.event_listener, event: fervo.defer, method: onDeferEvent }
+
+    fervo_deferred_event.serializer:
+        class: Fervo\DeferredEventBundle\Serializer\Base64NativeSerializer
