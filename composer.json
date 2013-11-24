@@ -1,6 +1,16 @@
 {
     "name": "fervo/deferred-event-bundle",
     "description": "Defer your events to another process (via FastCGI)",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Magnus Nordlander",
+            "email": "magnus@fervo.se",
+            "homepage": "http://www.fervo.se/",
+            "role": "Developer"
+        }
+    ],
+    "type": "symfony-bundle",
     "autoload": {
         "psr-0": { "": "src/" }
     },
@@ -9,8 +19,8 @@
         "symfony/framework-bundle": "~2.3",
         "musicglue/sidekiq-job-pusher": "dev-master"
     },
-    "recommend": {
-        "redeye/sidekiq-bundle": "dev-master"
+    "suggest": {
+        "redeye/sidekiq-bundle": "Simplifies the configuration of your Sidekiq client"
     },
     "bin": ["Resources/bin/dispatch.php"]
 }
