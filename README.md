@@ -1,6 +1,6 @@
 # FervoDeferredEventBundle
 
-I wrote a blog entry with the reasoning behind this bundle, which you may want to read.
+I wrote [a blog entry](http://joiedetech.se/2013-11-25-improving-symfony-workers) with the reasoning behind this bundle, which you may want to read.
 
 FervoDeferredEventBundle allows you to defer execution of events, either by dispatching a wrapping event, or by calling a method on a service:
 
