@@ -18,7 +18,7 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/framework-bundle": "~2.3",
-        "musicglue/sidekiq-job-pusher": "dev-master"
+        "musicglue/sidekiq-job-pusher": "dev-master#c283010a"
     },
     "suggest": {
         "redeye/sidekiq-bundle": "Simplifies the configuration of your Sidekiq client"

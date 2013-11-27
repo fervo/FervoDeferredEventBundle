@@ -16,10 +16,6 @@ class ImmediateEventQueue implements EventQueueInterface
 
     public function deferEvent(Event $event, $delay = 0)
     {
-        if ($delay > 0) {
-            sleep($delay);
-        }
-
         $this->eventDispatcher->dispatch($event->getName(), $event);
     }
 }
