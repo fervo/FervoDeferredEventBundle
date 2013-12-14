@@ -20,6 +20,6 @@ class DeferEvent extends Event
 
     public function getDeferredEvent()
     {
-        return $this->event;
+        return $this->deferredEvent;
     }
 }
