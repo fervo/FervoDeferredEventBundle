@@ -10,7 +10,10 @@ services:
         class: Fervo\DeferredEventBundle\Event\Queue\ImmediateEventQueue
         public: false
         arguments:
-            - @event_dispatcher
+            - @fervo_deferred_event.dispatcher
+
+    fervo_deferred_event.dispatcher:
+        class: Symfony\Component\EventDispatcher\EventDispatcher
 
     fervo_deferred_event.listener:
         class: Fervo\DeferredEventBundle\Listener\DeferEventListener

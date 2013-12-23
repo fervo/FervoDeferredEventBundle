@@ -2,23 +2,9 @@
 
 I wrote [a blog entry](http://joiedetech.se/2013-11-25-improving-symfony-workers) with the reasoning behind this bundle, which you may want to read.
 
-FervoDeferredEventBundle allows you to defer execution of events, either by dispatching a wrapping event, or by calling a method on a service:
+FervoDeferredEventBundle allows you to defer execution of events. Just tag your listener with ```fervo_deferred_event.listener``` instead of ```kernel.event_listener``` (subscribers don't work yet), and the bundle will do the rest.
 
-Events:
-
-```
-$evt = new DeferEvent('foo.action', new FooActionEvent());
-$eventDispatcher->dispatch('fervo.defer', $evt);
-```
-Service:
-
-```
-$evt = new FooActionEvent();
-$evt->setName('foo.action');
-$container->get('fervo_dispatch.queue')->deferEvent($evt);
-```
-
-As if by magic, at some later time, a worker will dispatch your event into the event dispatcher. Pretty much the only caveats you'll need to keep in mind is that it is in another process, and that the code isn't executing in the request scope anymore.
+As if by magic, at some later time, a worker will dispatch your event to your listeners. Pretty much the only caveats you'll need to keep in mind is that it is in another process, and that the code isn't executing in the request scope anymore.
 
 Of course FervoDeferredEventBundle requires some kind of a message queue and a worker. Currently it uses Sidekiq, but the bundle itself is fairly backend agnostic, and should be easily portable to other MQs. The Worker code is available in the [fervo/deferred-event-worker](https://github.com/fervo/deferred-event-worker) repository.
 
