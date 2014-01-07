@@ -26,6 +26,12 @@ class FervoDeferredEventExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
+        if ($config['serializer']) {
+            $container->setAlias('fervo_deferred_event.serializer', $config['serializer']);
+        } else {
+            $container->setAlias('fervo_deferred_event.serializer', 'fervo_deferred_event.serializer.base64')
+        }
+
         if ($config['backend']['sidekiq_client_service']) {
             $def = $container->getDefinition('fervo_deferred_event.queue.sidekiq');
             $def->replaceArgument(0, new Reference($config['backend']['sidekiq_client_service']));

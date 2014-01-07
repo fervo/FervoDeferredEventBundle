@@ -22,5 +22,5 @@ services:
         tags:
             - { name: kernel.event_listener, event: fervo.defer, method: onDeferEvent }
 
-    fervo_deferred_event.serializer:
+    fervo_deferred_event.serializer.base64:
         class: Fervo\DeferredEventBundle\Serializer\Base64NativeSerializer
