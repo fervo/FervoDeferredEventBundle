@@ -20,9 +20,9 @@ class Configuration implements ConfigurationInterface
                             ->values(array('sidekiq', 'immediate'))
                         ->end()
                         ->scalarNode('sidekiq_client_service')->end()
-                        ->scalarNode('serializer')->end()
                     ->end()
                 ->end()
+                ->scalarNode('serializer')->defaultValue('fervo_deferred_event.serializer.base64')->end()
             ->end()
         ;
 
