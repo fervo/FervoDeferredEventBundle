@@ -20,9 +20,11 @@ class DispatchEventCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $serializerFormat = $this->getContainer()->getParameter('fervo_deferred_event.serializer_format');
+
         $event = $this->getContainer()
             ->get('fervo_deferred_event.serializer')
-            ->deserialize($input->getArgument('event_data'), null, null);
+            ->deserialize($input->getArgument('event_data'), null, $serializerFormat);
 
         $this->getContainer()->get('fervo_deferred_event.dispatcher')->dispatch($event->getName(), $event);
     }

@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->scalarNode('serializer')->defaultValue('fervo_deferred_event.serializer.base64')->end()
+                ->scalarNode('serializer_format')->defaultValue('base64')->end()
             ->end()
         ;
 

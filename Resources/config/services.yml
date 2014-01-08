@@ -5,6 +5,7 @@ services:
         arguments:
             - ~
             - @fervo_deferred_event.serializer
+            - %fervo_deferred_event.serializer_format%
 
     fervo_deferred_event.queue.immediate:
         class: Fervo\DeferredEventBundle\Event\Queue\ImmediateEventQueue

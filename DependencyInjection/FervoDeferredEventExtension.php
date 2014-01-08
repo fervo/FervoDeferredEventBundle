@@ -33,6 +33,8 @@ class FervoDeferredEventExtension extends Extension
             $def->replaceArgument(0, new Reference($config['backend']['sidekiq_client_service']));
         }
 
+        $container->setParameter('fervo_deferred_event.serializer_format', $config['serializer_format']);
+
         $container->setAlias(
             'fervo_deferred_event.queue',
             sprintf('fervo_deferred_event.queue.%s', $config['backend']['type'])
