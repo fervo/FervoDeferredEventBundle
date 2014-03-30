@@ -36,6 +36,11 @@ class ListenerPass implements CompilerPassInterface
             }
         }
 
+        //if we don't got any deferredEvents..
+        if (empty($deferredEvents)) {
+            return;
+        }
+
         $deferredEvents = array_unique($deferredEvents);
 
         foreach ($deferredEvents as $event) {
