@@ -8,6 +8,12 @@
             "email": "magnus@fervo.se",
             "homepage": "http://www.fervo.se/",
             "role": "Developer"
+        },
+        {
+            "name": "Tobias Nyholm",
+            "email": "tobias@happyr.com",
+            "homepage": "http://developer.happyr.se/",
+            "role": "Contributor"
         }
     ],
     "type": "symfony-bundle",
@@ -17,11 +23,12 @@
     "target-dir": "Fervo/DeferredEventBundle",
     "require": {
         "php": ">=5.3.3",
-        "symfony/framework-bundle": "~2.3",
-        "musicglue/sidekiq-job-pusher": "dev-master"
+        "symfony/framework-bundle": "~2.3"
     },
     "suggest": {
-        "redeye/sidekiq-bundle": "Simplifies the configuration of your Sidekiq client"
+        "redeye/sidekiq-bundle": "Simplifies the configuration of your Sidekiq client",
+        "musicglue/sidekiq-job-pusher": "dev-master",
+        "videlalvaro/php-amqplib": "v2.1.0"
     },
     "bin": ["Resources/bin/dispatch.php"]
 }

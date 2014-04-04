@@ -1,17 +1,23 @@
 services:
     fervo_deferred_event.queue.sidekiq:
-        class: Fervo\DeferredEventBundle\Event\Queue\SidekiqEventQueue
+        class: Fervo\DeferredEventBundle\Event\Queue\SidekiqMessageQueue
         public: false
         arguments:
             - ~
-            - @fervo_deferred_event.serializer
-            - %fervo_deferred_event.serializer_format%
 
     fervo_deferred_event.queue.immediate:
-        class: Fervo\DeferredEventBundle\Event\Queue\ImmediateEventQueue
+        class: Fervo\DeferredEventBundle\Event\Queue\ImmediateMessageQueue
         public: false
         arguments:
             - @fervo_deferred_event.dispatcher
+            - @fervo_deferred_event.serializer
+            - %fervo_deferred_event.serializer_format%
+
+    fervo_deferred_event.queue.amqp:
+        class: Fervo\DeferredEventBundle\Event\Queue\AmqpMessageQueue
+        public: false
+        arguments:
+            - ~
 
     fervo_deferred_event.dispatcher:
         class: Symfony\Component\EventDispatcher\EventDispatcher
@@ -20,8 +26,16 @@ services:
         class: Fervo\DeferredEventBundle\Listener\DeferEventListener
         arguments:
             - @fervo_deferred_event.queue
+            - @fervo_deferred_event.service.message_service
         tags:
             - { name: kernel.event_listener, event: fervo.defer, method: onDeferEvent }
 
     fervo_deferred_event.serializer.base64:
         class: Fervo\DeferredEventBundle\Serializer\Base64NativeSerializer
+
+    fervo_deferred_event.service.message_service:
+        class: Fervo\DeferredEventBundle\Service\MessageService
+        arguments:
+            - ~
+            - @fervo_deferred_event.serializer
+            - %fervo_deferred_event.serializer_format%
