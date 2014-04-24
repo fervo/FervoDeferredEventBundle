@@ -15,13 +15,13 @@ class QueueMessage
      * @var array headers
      *
      */
-    private $headers;
+    protected $headers;
 
     /**
      * @var string data
      * The serialized event
      */
-    private $data;
+    protected $data;
 
     /**
      * @param null $data
