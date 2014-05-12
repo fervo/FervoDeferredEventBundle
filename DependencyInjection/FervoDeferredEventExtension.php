@@ -55,7 +55,7 @@ class FervoDeferredEventExtension extends Extension
 
         //try to set default dispatch_path
         if ($config['backend']['message_headers']['dispatch_path']==null) {
-            $config['backend']['message_headers']['dispatch_path']=$container->getParameter('kernel.root_dir').'/../bin/dispatch.php';
+            $config['backend']['message_headers']['dispatch_path']=dirname(__DIR__).'/Resources/bin/dispatch.php';
         }
 
         //add message headers to the message service
