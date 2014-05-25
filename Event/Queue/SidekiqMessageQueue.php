@@ -9,7 +9,6 @@ class SidekiqMessageQueue implements MessageQueueInterface
 {
     /**
      * @var \SidekiqJobPusher\Client sidekiq
-     *
      */
     protected $sidekiq;
 
