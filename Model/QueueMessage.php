@@ -3,8 +3,6 @@
 namespace Fervo\DeferredEventBundle\Model;
 
 /**
- * Class QueueMessage
- *
  * @author Tobias Nyholm
  *
  * This is a message that should be sent to the queue. The protocol that is being used is similar to HTTP
@@ -13,7 +11,6 @@ class QueueMessage
 {
     /**
      * @var array headers
-     *
      */
     protected $headers;
 
@@ -41,7 +38,6 @@ class QueueMessage
      * Parse raw data from queue
      *
      * @param $raw
-     *
      */
     public function parseRawData($raw)
     {
@@ -85,8 +81,8 @@ class QueueMessage
     }
 
     /**
-     *
-     * @param mixed $headers
+     * @param mixed $name
+     * @param mixed $value
      *
      * @return $this
      */
@@ -98,8 +94,9 @@ class QueueMessage
     }
 
     /**
+     * @param $name
      *
-     * @return String
+     * @return string|null
      */
     public function getHeader($name)
     {
@@ -112,7 +109,6 @@ class QueueMessage
 
 
     /**
-     *
      * @param mixed $data
      *
      * @return $this
