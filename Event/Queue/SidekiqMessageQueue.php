@@ -4,21 +4,37 @@ namespace Fervo\DeferredEventBundle\Event\Queue;
 
 use Fervo\DeferredEventBundle\Model\QueueMessage;
 use SidekiqJobPusher\Client;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class SidekiqMessageQueue implements MessageQueueInterface
 {
     /**
      * @var \SidekiqJobPusher\Client sidekiq
-     *
      */
     protected $sidekiq;
 
     /**
-     * @param Client $sidekiq
+     * @var \Symfony\Component\Serializer\SerializerInterface eventSerializer
+     *
      */
-    public function __construct(Client $sidekiq)
+    protected $eventSerializer;
+
+    /**
+     * @var  serializerFormat
+     *
+     */
+    protected $serializerFormat;
+
+    /**
+     * @param Client $sidekiq
+     * @param SerializerInterface $eventSerializer
+     * @param $serializerFormat
+     */
+    public function __construct(Client $sidekiq, SerializerInterface $eventSerializer, $serializerFormat)
     {
         $this->sidekiq = $sidekiq;
+        $this->serializerFormat = $serializerFormat;
+        $this->eventSerializer = $eventSerializer;
     }
 
     /**

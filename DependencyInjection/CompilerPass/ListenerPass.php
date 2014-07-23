@@ -16,7 +16,7 @@ class ListenerPass implements CompilerPassInterface
         }
 
         $fervoDispatcherDef = $container->getDefinition('fervo_deferred_event.dispatcher');
-        $sfDispatcherDef = $container->getDefinition('event_dispatcher');
+        $sfDispatcherDef = $container->findDefinition('event_dispatcher');
 
         $listenerTags = $container->findTaggedServiceIds('fervo_deferred_event.listener');
         foreach ($listenerTags as $id => $tags) {

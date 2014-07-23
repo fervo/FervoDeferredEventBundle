@@ -8,8 +8,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class DummyEventDispatcher
- *
  * @author Tobias Nyholm
  *
  * Use this class because we cannot serialize or unserialize PDO instances

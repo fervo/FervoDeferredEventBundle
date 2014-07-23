@@ -38,7 +38,6 @@ class FervoDeferredEventExtension extends Extension
             $def->replaceArgument(0, $config['backend']['amqp_config']);
         }
 
-        //add message headers to the message service
         $def = $container->getDefinition('fervo_deferred_event.service.message_service');
         $def->replaceArgument(0, $config['backend']['message_headers']);
 
