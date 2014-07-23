@@ -48,7 +48,7 @@ class QueueMessage
                 $this->data=$lines[$i+1];
                 break;
             }
-            list($key, $value) = explode(':',$line);
+            list($key, $value) = explode(':', $line, 2);
             $this->headers[strtolower($key)]=trim($value);
         }
     }

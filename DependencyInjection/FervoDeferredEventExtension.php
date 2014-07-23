@@ -38,26 +38,6 @@ class FervoDeferredEventExtension extends Extension
             $def->replaceArgument(0, $config['backend']['amqp_config']);
         }
 
-        // try to set default php bin
-        if ($config['backend']['message_headers']['php_bin']==null) {
-            if (defined(PHP_BINARY)) {
-                //since php 5.4
-                $config['backend']['message_headers']['php_bin']=PHP_BINARY;
-            } else {
-                $config['backend']['message_headers']['php_bin']=PHP_BINDIR.'/php';
-            }
-        }
-
-        // try to set default app_console
-        if ($config['backend']['message_headers']['console_path']==null) {
-            $config['backend']['message_headers']['console_path']=$container->getParameter('kernel.root_dir').'/console';
-        }
-
-        // try to set default dispatch_path
-        if ($config['backend']['message_headers']['dispatch_path']==null) {
-            $config['backend']['message_headers']['dispatch_path']=$container->getParameter('kernel.root_dir').'/../bin/dispatch.php';
-        }
-
         // add message headers to the message service
         $def = $container->getDefinition('fervo_deferred_event.service.message_service');
         $def->replaceArgument(0, $config['backend']['message_headers']);

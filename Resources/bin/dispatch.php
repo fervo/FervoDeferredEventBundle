@@ -2,8 +2,14 @@
 
 set_time_limit(0);
 
-require_once '../app/bootstrap.php.cache';
-require_once '../app/AppKernel.php';
+$path=array(
+    'short'=>__DIR__.'/../app/',
+    'long'=>__DIR__.'/../../../../../../../app/',
+);
+
+(@include_once $path['short'] . 'bootstrap.php.cache') || @include_once $path['long'] . 'bootstrap.php.cache';
+(@include_once $path['short'] . 'AppKernel.php') || @include_once $path['long'] . 'AppKernel.php';
+
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
