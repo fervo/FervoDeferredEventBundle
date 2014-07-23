@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  * @author Tobias Nyholm
  *
  */
-class MessageService
+class MessageService implements MessageHeaderAwareInterface
 {
     /**
      * @var \Symfony\Component\Serializer\SerializerInterface eventSerializer
@@ -30,16 +30,16 @@ class MessageService
      * @var array config
      *
      */
-    protected $config;
+    protected $headers;
 
     /**
-     * @param array $config
+     * @param array $headers
      * @param SerializerInterface $eventSerializer
      * @param $serializerFormat
      */
-    public function __construct(array $config, SerializerInterface $eventSerializer, $serializerFormat)
+    public function __construct(array $headers, SerializerInterface $eventSerializer, $serializerFormat)
     {
-        $this->config=$config;
+        $this->headers=$headers;
         $this->eventSerializer = $eventSerializer;
         $this->serializerFormat = $serializerFormat;
     }
@@ -57,10 +57,37 @@ class MessageService
         $eventData = $this->eventSerializer->serialize($event, $this->serializerFormat);
         $message = new QueueMessage($eventData);
 
-        foreach ($this->config as $key=>$value) {
+        foreach ($this->headers as $key=>$value) {
             $message->addHeader($key, $value);
         }
 
         return $message;
     }
-} 
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return $this
+     */
+    public function setHeader($name, $value)
+    {
+        $this->headers[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return null
+     */
+    public function getHeader($name)
+    {
+        if (isset($this->headers[$name])) {
+            return $this->headers[$name];
+        }
+
+        return null;
+    }
+}

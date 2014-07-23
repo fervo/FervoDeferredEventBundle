@@ -33,8 +33,15 @@ services:
     fervo_deferred_event.serializer.base64:
         class: Fervo\DeferredEventBundle\Serializer\Base64NativeSerializer
 
+    fervo_deferred_event.dependency_injection.message_header_configurator:
+        class: Fervo\DeferredEventBundle\DependencyInjection\Configurator\MessageHeaderConfigurator
+        arguments:
+            - @kernel
+            - %kernel.root_dir%
+
     fervo_deferred_event.service.message_service:
         class: Fervo\DeferredEventBundle\Service\MessageService
+        configurator: ["@fervo_deferred_event.dependency_injection.message_header_configurator", configure]
         arguments:
             - ~
             - @fervo_deferred_event.serializer
