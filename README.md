@@ -65,6 +65,7 @@ fervo_deferred_event:
         amqp_config:
             host: "localhost"             #default
             port: 5672                    #default
+            batch_publishing: false       #can only be true if you are using videlalvaro/php-amqplib v.2.2.0 or above
         message_headers:
             fastcgi_host: "localhost"     #default
             fastcgi_port: 9000            #default
