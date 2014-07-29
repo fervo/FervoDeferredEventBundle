@@ -47,7 +47,7 @@ class AmqpMessageQueue implements MessageQueueInterface
         }
 
         //establish connection
-        $this->queueConnection = new AMQPConnection($config['host'], $config['port'], $config['user'], $config['pass']);
+        $this->queueConnection = new AMQPConnection($config['host'], $config['port'], $config['user'], $config['pass'], $config['vhost']);
 
         //get a channel
         $this->queueChannel = $this->queueConnection->channel();
