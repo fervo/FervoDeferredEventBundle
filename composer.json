@@ -28,7 +28,7 @@
     "suggest": {
         "redeye/sidekiq-bundle": "Simplifies the configuration of your Sidekiq client",
         "musicglue/sidekiq-job-pusher": "dev-master",
-        "videlalvaro/php-amqplib": "v2.4.0"
+        "videlalvaro/php-amqplib": "To enable pushing to a AMQP compatible queue like RabbitMQ. Use version 2.3.0 or above"
     },
     "bin": ["Resources/bin/dispatch.php"]
 }
