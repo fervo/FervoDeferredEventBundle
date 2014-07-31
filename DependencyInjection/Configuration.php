@@ -27,6 +27,7 @@ class Configuration implements ConfigurationInterface
                                 ->integerNode('port')->defaultValue(5672)->end()
                                 ->scalarNode('user')->defaultValue('guest')->end()
                                 ->scalarNode('pass')->defaultValue('guest')->end()
+                                ->scalarNode('vhost')->defaultValue('/')->end()
                             ->end()
                         ->end()
                         ->arrayNode('message_headers')->addDefaultsIfNotSet()
