@@ -10,8 +10,7 @@ class ListenerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('fervo_deferred_event.dispatcher'))
-        {
+        if (!$container->hasDefinition('fervo_deferred_event.dispatcher')) {
             return;
         }
 
@@ -21,7 +20,7 @@ class ListenerPass implements CompilerPassInterface
         $listenerTags = $container->findTaggedServiceIds('fervo_deferred_event.listener');
         foreach ($listenerTags as $id => $tags) {
             foreach ($tags as $tag) {
-                $deferredEvents[] = $tag['event'];
+                $deferredEvents[] = array($tag['event'], isset($tag['backend']) ? $tag['backend'] : 'default');
 
                 $callArgs = [
                     $tag['event'],
@@ -31,6 +30,8 @@ class ListenerPass implements CompilerPassInterface
                 if (isset($tag['priority'])) {
                     $callArgs[] = $tag['priority'];
                 }
+
+                $callArgs[] = isset($tag['backend']) ? $tag['backend'] : 'default';
 
                 $fervoDispatcherDef->addMethodCall('addListener', $callArgs);
             }
@@ -43,9 +44,12 @@ class ListenerPass implements CompilerPassInterface
 
         $deferredEvents = array_unique($deferredEvents);
 
+        // Comment
+
         foreach ($deferredEvents as $event) {
             $sfDispatcherDef->addMethodCall(
-                'addListenerService', [
+                'addListenerService',
+                [
                     $event,
                     ['fervo_deferred_event.listener', 'onNonDeferEvent'],
                     -127,
