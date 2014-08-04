@@ -28,25 +28,28 @@ class FervoDeferredEventExtension extends Extension
 
         $container->setAlias('fervo_deferred_event.serializer', $config['serializer']);
 
-        if (!empty($config['backend']['sidekiq_client_service'])) {
-            $def = $container->getDefinition('fervo_deferred_event.queue.sidekiq');
-            $def->replaceArgument(0, new Reference($config['backend']['sidekiq_client_service']));
-        }
+        foreach ($config['backends'] as $backend) {
+            if (!empty($backend['sidekiq_client_service'])) {
+                $def = $container->getDefinition('fervo_deferred_event.queue.sidekiq');
+                $def->replaceArgument(0, new Reference($backend['sidekiq_client_service']));
+            }
 
-        if ($config['backend']['type']=='amqp') {
-            $def = $container->getDefinition('fervo_deferred_event.queue.amqp');
-            $def->replaceArgument(0, $config['backend']['amqp_config']);
-        }
+            if ($backend['type']=='amqp') {
+                $def = $container->getDefinition('fervo_deferred_event.queue.amqp');
+                $def->replaceArgument(0, $backend['amqp_config']);
+            }
 
-        // add message headers to the message service
-        $def = $container->getDefinition('fervo_deferred_event.service.message_service');
-        $def->replaceArgument(0, $config['backend']['message_headers']);
+
+            // add message headers to the message service
+            $def = $container->getDefinition('fervo_deferred_event.service.message_service');
+            $def->replaceArgument(0, $backend['message_headers']);
+        }
 
         $container->setParameter('fervo_deferred_event.serializer_format', $config['serializer_format']);
 
         $container->setAlias(
             'fervo_deferred_event.queue',
-            sprintf('fervo_deferred_event.queue.%s', $config['backend']['type'])
+            sprintf('fervo_deferred_event.queue.%s', $config['backends']['default']['type'])
         );
     }
 }

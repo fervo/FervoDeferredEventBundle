@@ -52,6 +52,7 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
+
     private function getBackendsNode()
     {
         $treeBuilder = new TreeBuilder();
