@@ -22,7 +22,22 @@ services:
             - ~
 
     fervo_deferred_event.dispatcher:
+        alias: fervo_deferred_event.dispatcher.real
+
+    fervo_deferred_event.dispatcher.real:
         class: Symfony\Component\EventDispatcher\EventDispatcher
+
+    fervo_deferred_event.dispatcher.debug:
+        class: Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher
+        arguments:
+            - @fervo_deferred_event.dispatcher.real
+            - @fervo_deferred_event.dispatcher.debug.stopwatch
+            - @logger
+        tags:
+            - { name: monolog.logger, channel: deferred_event }
+
+    fervo_deferred_event.dispatcher.debug.stopwatch:
+        class: Symfony\Component\Stopwatch\Stopwatch
 
     fervo_deferred_event.listener:
         class: Fervo\DeferredEventBundle\Listener\DeferEventListener
