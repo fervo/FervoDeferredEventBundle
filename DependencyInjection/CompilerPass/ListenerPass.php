@@ -10,12 +10,12 @@ class ListenerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('fervo_deferred_event.dispatcher'))
+        if (!$container->hasDefinition('fervo_deferred_event.dispatcher.real'))
         {
             return;
         }
 
-        $fervoDispatcherDef = $container->getDefinition('fervo_deferred_event.dispatcher');
+        $fervoDispatcherDef = $container->getDefinition('fervo_deferred_event.dispatcher.real');
         $sfDispatcherDef = $container->findDefinition('event_dispatcher');
 
         $listenerTags = $container->findTaggedServiceIds('fervo_deferred_event.listener');

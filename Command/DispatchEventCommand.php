@@ -20,12 +20,29 @@ class DispatchEventCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $serializerFormat = $this->getContainer()->getParameter('fervo_deferred_event.serializer_format');
+        $container = $this->getContainer();
 
-        $event = $this->getContainer()
+        $serializerFormat = $container->getParameter('fervo_deferred_event.serializer_format');
+
+        $event = $container
             ->get('fervo_deferred_event.serializer')
             ->deserialize($input->getArgument('event_data'), null, $serializerFormat);
 
-        $this->getContainer()->get('fervo_deferred_event.dispatcher')->dispatch($event->getName(), $event);
+        if ($container->getParameter('fervo_deferred_event.debug')) {
+            if ($container->has('monolog.logger.deferred_event')) {
+                $logger = $container->get('monolog.logger.deferred_event');
+            } else {
+                $logger = $container->get('logger');
+            }
+
+            $eventData = [];
+            if (method_exists($event, '__debugInfo')) {
+                $eventData = $event->__debugInfo();
+            }
+
+            $logger->debug(sprintf("Dispatching event (%s) to event dispatcher.", get_class($event)), $eventData);
+        }
+
+        $container->get('fervo_deferred_event.dispatcher')->dispatch($event->getName(), $event);
     }
 }
