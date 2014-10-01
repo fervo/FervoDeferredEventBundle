@@ -38,6 +38,11 @@ class AmqpMessageQueue implements MessageQueueInterface
     protected $queueName='sf_deferred_events';
 
     /**
+     * @var boolean batchPublishing
+     */
+    private $batchPublishing;
+
+    /**
      * @param array $config
      */
     public function __construct(array $config)
@@ -45,6 +50,8 @@ class AmqpMessageQueue implements MessageQueueInterface
         if (!class_exists('PhpAmqpLib\Connection\AMQPConnection')) {
             throw new \Exception('You need to add "videlalvaro/php-amqplib" to your composer.json');
         }
+
+        $this->batchPublishing = $config['batch_publishing'];
 
         //establish connection
         $this->queueConnection = new AMQPConnection($config['host'], $config['port'], $config['user'], $config['pass'], $config['vhost']);
@@ -67,7 +74,14 @@ class AmqpMessageQueue implements MessageQueueInterface
     {
         //create a message and publish it
         $queueMessage = new AMQPMessage($message->getFormattedMessage());
-        $this->queueChannel->basic_publish($queueMessage, '', $this->queueName);
+
+        if ($this->batchPublishing) {
+            //add to batch queue
+            $this->queueChannel->batch_basic_publish($queueMessage, '', $this->queueName);
+        } else {
+            //publish now
+            $this->queueChannel->basic_publish($queueMessage, '', $this->queueName);
+        }
     }
 
     /**
@@ -75,6 +89,11 @@ class AmqpMessageQueue implements MessageQueueInterface
      */
     function __destruct()
     {
+        if ($this->batchPublishing) {
+            //publish all our messages at once
+            $this->queueChannel->publish_batch();
+        }
+
         $this->queueChannel->close();
         $this->queueConnection->close();
     }

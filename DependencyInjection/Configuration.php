@@ -10,7 +10,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('fervo_dispatch');
+        $rootNode = $treeBuilder->root('fervo_deferred_event');
 
         $rootNode
             ->children()
@@ -27,7 +27,8 @@ class Configuration implements ConfigurationInterface
                                 ->integerNode('port')->defaultValue(5672)->end()
                                 ->scalarNode('user')->defaultValue('guest')->end()
                                 ->scalarNode('pass')->defaultValue('guest')->end()
-                                ->scalarNode('vhost')->defaultValue('/')->end()
+				->scalarNode('vhost')->defaultValue('/')->end()
+                                ->booleanNode('batch_publishing')->defaultValue(false)->end()
                             ->end()
                         ->end()
                         ->arrayNode('message_headers')->addDefaultsIfNotSet()
