@@ -43,6 +43,17 @@ class AmqpMessageQueue implements MessageQueueInterface
     private $batchPublishing;
 
     /**
+     * Make sure to initialize before we post our first message.
+     * @var bool initialized
+     */
+    private $initialized = false;
+
+    /**
+     * @var array config
+     */
+    private $config;
+
+    /**
      * @param array $config
      */
     public function __construct(array $config)
@@ -51,17 +62,28 @@ class AmqpMessageQueue implements MessageQueueInterface
             throw new \Exception('You need to add "videlalvaro/php-amqplib" to your composer.json');
         }
 
-        $this->batchPublishing = $config['batch_publishing'];
-
-        //establish connection
-        $this->queueConnection = new AMQPConnection($config['host'], $config['port'], $config['user'], $config['pass'], $config['vhost']);
-
-        //get a channel
-        $this->queueChannel = $this->queueConnection->channel();
-
-        //make sure we got a topic
-        $this->queueChannel->queue_declare($this->queueName, false, false, false, false);
+        //save config
+        $this->config = $config;
     }
+
+    /**
+     * Clean up after us
+     */
+    function __destruct()
+    {
+        if (!$this->initialized) {
+            return;
+        }
+
+        if ($this->batchPublishing) {
+            //publish all our messages at once
+            $this->queueChannel->publish_batch();
+        }
+
+        $this->queueChannel->close();
+        $this->queueConnection->close();
+    }
+
 
     /**
      * Put a message on the queue
@@ -72,6 +94,8 @@ class AmqpMessageQueue implements MessageQueueInterface
      */
     public function addMessage(QueueMessage $message, $delay = 0)
     {
+        $this->init();
+
         //create a message and publish it
         $queueMessage = new AMQPMessage($message->getFormattedMessage());
 
@@ -84,17 +108,29 @@ class AmqpMessageQueue implements MessageQueueInterface
         }
     }
 
+
+
     /**
-     * Clean up after us
+     * Create queue objects and init the class
+     * @param array $config
      */
-    function __destruct()
+    private function init()
     {
-        if ($this->batchPublishing) {
-            //publish all our messages at once
-            $this->queueChannel->publish_batch();
+        if ($this->initialized) {
+            return;
         }
 
-        $this->queueChannel->close();
-        $this->queueConnection->close();
+        $this->initialized = true;
+
+        $this->batchPublishing = $this->config['batch_publishing'];
+
+        //establish connection
+        $this->queueConnection = new AMQPConnection($this->config['host'], $this->config['port'], $this->config['user'], $this->config['pass']);
+
+        //get a channel
+        $this->queueChannel = $this->queueConnection->channel();
+
+        //make sure we got a topic
+        $this->queueChannel->queue_declare($this->queueName, false, false, false, false);
     }
 }
