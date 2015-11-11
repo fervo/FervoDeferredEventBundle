@@ -14,27 +14,13 @@ class SidekiqMessageQueue implements MessageQueueInterface
     protected $sidekiq;
 
     /**
-     * @var \Symfony\Component\Serializer\SerializerInterface eventSerializer
-     *
-     */
-    protected $eventSerializer;
-
-    /**
-     * @var  serializerFormat
-     *
-     */
-    protected $serializerFormat;
-
-    /**
      * @param Client $sidekiq
      * @param SerializerInterface $eventSerializer
      * @param $serializerFormat
      */
-    public function __construct(Client $sidekiq, SerializerInterface $eventSerializer, $serializerFormat)
+    public function __construct(Client $sidekiq)
     {
         $this->sidekiq = $sidekiq;
-        $this->serializerFormat = $serializerFormat;
-        $this->eventSerializer = $eventSerializer;
     }
 
     /**
@@ -47,8 +33,6 @@ class SidekiqMessageQueue implements MessageQueueInterface
     public function addMessage(QueueMessage $message, $delay = 0)
     {
         //The sidekiq worker does not support message headers
-        $eventData = $this->eventSerializer->serialize($message->getData(), $this->serializerFormat);
-
-        $this->sidekiq->perform('DeferEvent', [$eventData]);
+        $this->sidekiq->perform('DeferEvent', [$message->getData()]);
     }
 }
