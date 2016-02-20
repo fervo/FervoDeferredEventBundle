@@ -7,6 +7,9 @@ issues for us.
 I wrote [a blog entry](http://joiedetech.se/2013-11-25-improving-symfony-workers) with the reasoning behind this bundle,
 which you may want to read.
 
+## Caveat
+*This project is no longer actively developed by Fervo. We're still willing to merge PRs, but we're moving away from this internally. If you have a vested interest in this project and want to adopt it, contact us at magnus@fervo.se.*
+
 ## Usage
 
 You can defer events in two ways. You can decide when you dispatch an event that it should be deferred or you could let
