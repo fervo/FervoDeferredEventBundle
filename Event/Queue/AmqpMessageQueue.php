@@ -32,12 +32,6 @@ class AmqpMessageQueue implements MessageQueueInterface
     protected $queueChannel;
 
     /**
-     * @var string queueName
-     *
-     */
-    protected $queueName='sf_deferred_events';
-
-    /**
      * @var boolean batchPublishing
      */
     private $batchPublishing;
@@ -101,10 +95,10 @@ class AmqpMessageQueue implements MessageQueueInterface
 
         if ($this->batchPublishing) {
             //add to batch queue
-            $this->queueChannel->batch_basic_publish($queueMessage, '', $this->queueName);
+            $this->queueChannel->batch_basic_publish($queueMessage, '', $this->config['queue_name']);
         } else {
             //publish now
-            $this->queueChannel->basic_publish($queueMessage, '', $this->queueName);
+            $this->queueChannel->basic_publish($queueMessage, '', $this->config['queue_name']);
         }
     }
 
@@ -131,6 +125,6 @@ class AmqpMessageQueue implements MessageQueueInterface
         $this->queueChannel = $this->queueConnection->channel();
 
         //make sure we got a topic
-        $this->queueChannel->queue_declare($this->queueName, false, false, false, false);
+        $this->queueChannel->queue_declare($this->config['queue_name'], false, $this->config['durable'], false, false);
     }
 }
