@@ -27,6 +27,8 @@ class Configuration implements ConfigurationInterface
                                 ->integerNode('port')->defaultValue(5672)->end()
                                 ->scalarNode('user')->defaultValue('guest')->end()
                                 ->scalarNode('pass')->defaultValue('guest')->end()
+                                ->scalarNode('queue_name')->defaultValue('sf_deferred_events')->end()
+                                ->booleanNode('durable')->defaultFalse()->end()
 				->scalarNode('vhost')->defaultValue('/')->end()
                                 ->booleanNode('batch_publishing')->defaultValue(false)->end()
                             ->end()
