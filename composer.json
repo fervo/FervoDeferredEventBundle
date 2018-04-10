@@ -23,6 +23,7 @@
     "target-dir": "Fervo/DeferredEventBundle",
     "require": {
         "php": ">=5.4",
+        "symfony/event-dispatcher": "~2.3",
         "symfony/framework-bundle": "~2.3|~3.0",
         "symfony/console": "~2.3|~3.0"
     },
