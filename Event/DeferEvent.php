@@ -14,7 +14,6 @@ class DeferEvent extends Event
             $deferredEvent = new Event();
         }
 
-        $deferredEvent->setName($deferredName);
         $this->deferredEvent = $deferredEvent;
     }
 
