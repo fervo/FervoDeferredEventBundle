@@ -5,6 +5,7 @@ namespace Fervo\DeferredEventBundle\Listener;
 use Fervo\DeferredEventBundle\EventDispatcher\DummyEventDispatcher;
 use Fervo\DeferredEventBundle\Service\MessageService;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Fervo\DeferredEventBundle\Event\DeferEvent;
 use Fervo\DeferredEventBundle\Event\Queue\MessageQueueInterface;
 
@@ -48,15 +49,7 @@ class DeferEventListener
      */
     public function onNonDeferEvent(Event $event)
     {
-        // save original dispatcher
-        $orgDispatcher=$event->getDispatcher();
-
-        // add a dummy dispatcher because we cannot serialize or unserialize PDO instances
-        $event->setDispatcher(new DummyEventDispatcher());
-        $message=$this->messageService->createMessage($event);
+        $message = $this->messageService->createMessage($event);
         $this->queue->addMessage($message);
-
-        // reset to the original dispatcher
-        $event->setDispatcher($orgDispatcher);
     }
 }
