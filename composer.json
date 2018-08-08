@@ -23,9 +23,9 @@
     "target-dir": "Fervo/DeferredEventBundle",
     "require": {
         "php": ">=5.4",
-        "symfony/event-dispatcher": "~3.0",
-        "symfony/framework-bundle": "~3.0",
-        "symfony/console": "~3.0"
+        "symfony/event-dispatcher": "^3.0|^4.0",
+        "symfony/framework-bundle": "^3.0|^4.0",
+        "symfony/console": "^3.0|^4.0"
     },
     "suggest": {
         "redeye/sidekiq-bundle": "Simplifies the configuration of your Sidekiq client",
