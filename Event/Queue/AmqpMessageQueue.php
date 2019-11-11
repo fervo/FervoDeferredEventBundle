@@ -34,18 +34,18 @@ class AmqpMessageQueue implements MessageQueueInterface
     /**
      * @var boolean batchPublishing
      */
-    private $batchPublishing;
+    protected $batchPublishing;
 
     /**
      * Make sure to initialize before we post our first message.
      * @var bool initialized
      */
-    private $initialized = false;
+    protected $initialized = false;
 
     /**
      * @var array config
      */
-    private $config;
+    protected $config;
 
     /**
      * @param array $config
@@ -63,7 +63,7 @@ class AmqpMessageQueue implements MessageQueueInterface
     /**
      * Clean up after us
      */
-    function __destruct()
+    public function __destruct()
     {
         if (!$this->initialized) {
             return;
@@ -108,7 +108,7 @@ class AmqpMessageQueue implements MessageQueueInterface
      * Create queue objects and init the class
      * @param array $config
      */
-    private function init()
+    protected function init()
     {
         if ($this->initialized) {
             return;
